@@ -5,18 +5,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options =>
-{
-    options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
-    options.ReturnHttpNotAcceptable = true;
-}).AddXmlDataContractSerializerFormatters();
+builder.Services.AddControllers(options => { options.ReturnHttpNotAcceptable = true; })
+    .AddNewtonsoftJson()
+    .AddXmlDataContractSerializerFormatters();
 
 // This part will allow us to add additional information within the Error object on a server level
 //builder.Services.AddProblemDetails(options =>
 //{
 //    options.CustomizeProblemDetails = ctx =>
 //    {
-//        ctx.ProblemDetails.Extensions.Add("additionalInfo", "Additional info exapmple");
+//        ctx.ProblemDetails.Extensions.Add("additionalInfo", "Additional info example");
 //        ctx.ProblemDetails.Extensions.Add("server", Environment.MachineName);
 //    };
 //});
