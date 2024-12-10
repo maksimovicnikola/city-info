@@ -1,3 +1,4 @@
+using CityInfo.API.Services;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
@@ -36,6 +37,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // This will ensure that files are downloaded with their real extension without the extension definition
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
+// builder.Services.AddTransient() - These services are created each time they are requested; Works best for leightweigh, stateless services
+// builder.Services.AddScoped() -  Created once per request.
+// builder.Services.AddSingleton() - Created just the first time they are requested, every other request will use the same instance.
+#if DEBUG
+builder.Services.AddTransient<IMailService, LocalMailService>();
+#else
+builder.Services.AddTransient<IMailService, CloudMailService>();
+#endif
 
 var app = builder.Build();
 
