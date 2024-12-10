@@ -1,12 +1,10 @@
 ﻿using CityInfo.API.Models;
-using System.Net.NetworkInformation;
 
 namespace CityInfo.API
 {
     public class CitiesDataStore
     {
         public List<CityDto> Cities { get; set; }
-        public static CitiesDataStore Current { get; } = new CitiesDataStore();
 
         public CitiesDataStore()
         {
