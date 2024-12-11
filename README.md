@@ -9,7 +9,7 @@ This project is a web application built using .NET Core 8 and C# 12, following t
 - **MVC Architecture**
 - **Entity Framework Core** (for database access)
 - **ASP.NET Core** (for web application framework)
-- **SQL Server** (database)
+- **SQLite** (database)
 
 ## Project Structure
 
@@ -25,7 +25,6 @@ The project follows the MVC architecture, which is divided into three main compo
 
 - .NET Core 8 SDK
 - Visual Studio 2022 or later
-- SQL Server
 
 ### Installation
 
