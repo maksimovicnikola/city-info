@@ -34,7 +34,12 @@ public class CityInfoRepository : ICityInfoRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<PointOfInterest?> GetPointOfInterestAsync(int cityId, int pointOfInterestId)
+    public async Task<bool> CityExistsAsync(int cityId)
+    {
+        return await _context.Cities.AnyAsync(c => c.Id == cityId);
+    }
+
+    public async Task<PointOfInterest?> GetPointOfInterestForCityAsync(int cityId, int pointOfInterestId)
     {
         return await _context.PointOfInterests
             .Where(p => p.CityId == cityId && p.Id == pointOfInterestId)
@@ -46,5 +51,26 @@ public class CityInfoRepository : ICityInfoRepository
         return await _context.PointOfInterests
             .Where(p => p.CityId == cityId)
             .ToListAsync();
+    }
+
+    public async Task AddPointOfInterestForCityAsync(int cityId, PointOfInterest pointOfInterest)
+    {
+        const bool includePointsOfInterests = false;
+        var city = await GetCityAsync(cityId, includePointsOfInterests);
+        
+        if (city != null)
+        {
+            city.PointsOfInterest.Add(pointOfInterest);
+        }
+    }
+
+    public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+    {
+        _context.PointOfInterests.Remove(pointOfInterest);
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        return (await _context.SaveChangesAsync() >= 0);
     }
 }

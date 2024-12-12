@@ -55,6 +55,9 @@ builder.Services.AddDbContext<CityInfoContext>(dbContextOptions =>
 
 // Scoped should be used for Repositories
 builder.Services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+// Registering AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 var app = builder.Build();
 
