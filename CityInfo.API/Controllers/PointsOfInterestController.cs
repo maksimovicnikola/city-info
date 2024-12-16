@@ -35,8 +35,10 @@ namespace CityInfo.API.Controllers
             }
 
             var pointsOfInterestForCity = await _cityInfoRepository.GetPointsOfInterestAsync(cityId);
-
-            return Ok(_mapper.Map<IEnumerable<PointOfInterestDto>>(pointsOfInterestForCity));
+            // Map PointOfInterest to PointOfInterestDto via AutoMapper
+            var result = _mapper.Map<IEnumerable<PointOfInterestDto>>(pointsOfInterestForCity);
+            
+            return Ok(result);
         }
 
         [HttpGet("{pointofinterestid}", Name = "GetPointOfInterest")]

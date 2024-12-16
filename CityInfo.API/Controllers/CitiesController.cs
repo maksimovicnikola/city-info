@@ -2,17 +2,19 @@
 using AutoMapper;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/cities")]
     public class CitiesController : ControllerBase
     {
         private readonly ICityInfoRepository _cityInfoRepository;
         private readonly IMapper _mapper;
-        const int maxCitiesPageSize = 20;
+        private const int maxCitiesPageSize = 20;
 
         public CitiesController(ICityInfoRepository cityInfoRepository, IMapper mapper)
         {
