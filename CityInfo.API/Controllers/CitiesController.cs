@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Asp.Versioning;
 using AutoMapper;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
@@ -9,7 +10,8 @@ namespace CityInfo.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/cities")]
+    [Route("api/v{version:apiVersion}/cities")]
+    [ApiVersion(1)]
     public class CitiesController : ControllerBase
     {
         private readonly ICityInfoRepository _cityInfoRepository;
@@ -39,7 +41,18 @@ namespace CityInfo.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Get a city by id
+        /// </summary>
+        /// <param name="id">The id of th city to get</param>
+        /// <param name="includePointsOfInterest">Whether to include the points of interests</param>
+        /// <returns>A city with or without points of interests</returns>
+        /// <response code="200">Returns the requested city</response>
+        /// <response code="404">The city was not found</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCity(int id, bool includePointsOfInterest = false)
         {
             var city = await _cityInfoRepository.GetCityAsync(id, includePointsOfInterest);

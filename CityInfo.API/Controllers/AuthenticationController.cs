@@ -55,7 +55,7 @@ public class AuthenticationController : ControllerBase
         // Step 2: Create a token
         // NuGet Package: Microsoft.IdentityModel.Tokens
         var securityKey =
-            new SymmetricSecurityKey(Convert.FromBase64String(_configuration["Authentication:SecretForKey"]));
+            new SymmetricSecurityKey(Convert.FromBase64String(_configuration["Authentication:SecretForKey"] ?? string.Empty));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claimsForToken = new List<Claim>();
@@ -86,6 +86,6 @@ public class AuthenticationController : ControllerBase
 
         // Return a new CityInfoUser(values would normally come from user DB/table)
         return new CityInfoUser(
-            1, username ?? "", "Nikola", "Maksimovic", "Novi Sad");
+            1, username ?? "", "Nikola", "Maksimovic", "Antwerp");
     }
 }
